@@ -1,0 +1,77 @@
+TARGET:DOC
+
+Carrier SQL: 'SELECT * FROM carrier;'
+
+Product SQL: 'SELECT * FROM product;'
+
+Category SQL: 'SELECT * FROM category;'
+
+Supplier SQL: 'SELECT * FROM supplier;'
+
+Customer SQL: 'SELECT * FROM customer;'
+{orders ISLIST SQL: 'SELECT orders.*, payment.paymentDate FROM orders, payment WHERE orders.id = payment.id and orders.customer = ?;' (id)
+    { items ISLIST SQL:' SELECT item.*, product.id FROM item, product where item.product = product.id and item.orders = ?;'  (id),
+    carrier SQL: 'SELECT delivery.deliveryDate, delivery.carrier from delivery where id = ?;' (id)
+    }
+}
+
+
+/*
+Doc Model:
+customer {
+   "customer_id":1,
+   "customer_name":"maxime placeat facere",
+   "customer_contacts":"ipsam voluptatem quia",
+   "orders":[
+         {"orders_id":79786,
+         "orders_totalPrice":312.01,
+         "orders_date":"2021-06-14 12:23:38.0",
+         "orders_saleDate":"2021-03-05 21:04:29.0",
+         "orders_customer":1,
+         "orders_payment":950021,
+         "payment_paymentDate":"2022-02-12 06:24:56.0",
+         "items":[
+            {"item_id":586526,
+            "item_quantity":31,
+            "item_product":677,
+            "item_orders":79786}
+         ],
+         "carrier":
+            {"delivery_deliveryDate":"2021-09-03 16:03:12.0",
+            "delivery_carrier":7}
+        },
+    ]
+}
+
+carrier
+{"carrier_id":1,
+"carrier_name":"ipsa quae ab",
+"carrier_contacts":"consectetur adipisci velit"}
+
+product
+{"product_id":1,
+"product_price":833.34,
+"product_description":"facilis est",
+"product_category":19,
+"product_supplier":117}
+
+category
+{"category_id":1,
+"category_description":"cupiditate non"}
+
+supplier
+{"supplier_id":1,
+"supplier_name":"est omnis dolor",
+"supplier_contacts":"corrupti quos dolores"}
+
+
+
+*/
+
+
+
+
+
+
+
+

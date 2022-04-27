@@ -1,0 +1,38 @@
+data range{
+    server_id	:[1, 1000],
+    player_id:[1, 500000],
+    session_id:	[1,2000000],
+    state_id:[1,10000000],
+    player_isadmin:[0,1]
+    }
+
+DATA TYPE{
+    state_timestamp date
+}
+EXEC QUERY Q1{
+    cf1 [server_id][][state_timestamp][state_timestamp,
+    state_posx, state_posy, state_posz, player_id],
+    FILTER [player_id = ]
+    }
+
+EXEC QUERY Q2{
+    cf1 [server_id][][state_timestamp]
+    [state_timestamp, state_posx, state_posy, state_posz, player_id, player_isadmin] ,
+    FILTER [player_isadmin = ]
+    }
+
+EXEC QUERY Q3 {
+     cf2 [server_id][][][server_name, server_ip]
+     }
+
+EXEC QUERY Q4 {
+    cf2 [server_id][][][server_name]
+     }
+
+EXEC QUERY Q5 {
+     cf3 [player_id][][][session_id ]
+  }
+
+EXEC UPDATE insert_state { cf1 QUERY [server_id] UPDATE [state_id]}
+
+--EXEC UPDTAE update_server{}

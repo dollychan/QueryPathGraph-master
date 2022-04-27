@@ -1,0 +1,16 @@
+TARGET:CF
+
+CF1 SQL:
+'SELECT server.id server_id, state.serverTimestamp state_timestamp, player.id player_id, state.id state_id,
+    session.id session_id, player.isAdmin player_isadmin,
+    state.posX state_posx, state.posY state_posy, state.posZ state_posz
+FROM server, session, state, player
+WHERE server.id = session.server and session.player = player.id and state.session = session.id;'
+
+CF3 SQL:
+'SELECT server.id server_id, server.name server_name, server.ip server_ip
+FROM server; '
+
+CF4 SQL:
+'SELECT player.id player_id, session.id session_id
+FROM player, session WHERE player.id = session.player; '

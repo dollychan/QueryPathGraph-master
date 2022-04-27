@@ -1,0 +1,35 @@
+data range{
+    server_id	:[1, 1000],
+    player_id:[1, 500000],
+    session_id:	[1,2000000],
+    state_id:[1,10000000],
+    player_isadmin:[0,1]
+    }
+
+DATA TYPE{
+    state_timestamp date
+}
+
+EXEC QUERY Q1{
+    cf1 [server_id,player_id][][state_timestamp]
+    [state_timestamp, state_posx, state_posy, state_posz]
+    }
+
+EXEC QUERY Q2{
+    cf2 [server_id,player_isadmin][][state_timestamp]
+    [state_timestamp, state_posx, state_posy, state_posz, player_id]
+    }
+
+EXEC QUERY Q3 {
+     cf3 [server_id][][][server_name, server_ip]
+     }
+
+EXEC QUERY Q4 {
+    cf3 [server_id][][][server_name]
+     }
+
+EXEC QUERY Q5 {
+     cf4 [player_id][][][session_id ]
+  }
+
+--EXEC UPDATE insert_state { cf1[state_id] , cf2[state_id]}
