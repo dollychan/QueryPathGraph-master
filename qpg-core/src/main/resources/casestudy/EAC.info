@@ -1,0 +1,59 @@
+class Session {
+    int id [K], 
+    string timeStart,
+    string timeEnded
+}
+
+class State {
+    int id [K], 
+    int posX,
+    int posY,
+    int posZ,
+    int serverTimestamp
+}
+
+class Player {
+    int id [K], 
+    string name,
+    string flags, 
+    int isAdmin
+}
+
+class Server {
+    int id [K],
+    string name,
+    string IP
+}
+
+REL owns: Player[1] ,  Session[*] ;
+REL handles: Server[1] , Session[*];
+REL captures: State[*] ,Session[1];
+
+--Q1
+SELECT Session.id, State.id, State.posX, State.posY, State.posZ, State.serverTimestamp
+    FROM Server.handles.Session.captures.State, Session.owns.Player
+    WHERE Server.id = ? AND Player.id= ?
+    Order by State.serverTimestamp; 1
+
+--Q2
+SELECT Player.id, Session.id, State.id, State.posX, State.posY, State.posZ, State.serverTimestamp
+    FROM Server.handles.Session.captures.State, Session.owns.Player
+    WHERE Server.id = ? AND Player.isAdmin = ?
+    Order by State.serverTimestamp, Player.id; 1
+
+--Q3
+SELECT Server.name, Server.IP
+    FROM Server 
+    WHERE Server.id = ?; 1
+
+--Q4
+SELECT Server.name
+    FROM Server 
+    WHERE Server.id = ?; 1
+
+--Q5
+SELECT Session.id
+    FROM Player.owns.Session 
+    WHERE Player.id = ?; 1
+
+

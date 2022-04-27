@@ -1,0 +1,91 @@
+class User {
+    int id [K], 
+    string name,
+    string* expertises,
+    string email
+}
+
+class Review {
+    int id [K], 
+    string title,
+    string body,
+    int rating,
+    string date
+}
+
+class Artifact {
+    int id [K], 
+    string title,
+    string* authors,
+    string* keywords
+}
+
+class Venue {
+    string name [K], 
+    int year [K],
+    string* topics,
+    string country,
+    string homepage
+}
+
+rel likes: Artifact[*], User[*] ;
+rel likes: Venue[*],User[*];
+rel likes: Review[*], User[*];
+rel posts: Review[*], User[1];
+rel rates: Artifact[1], Review[*];
+rel features: Venue[1] ,Artifact[*];
+
+--Q1
+SELECT Artifact.id, Artifact.title, Artifact.authors, Artifact.keywords
+    FROM Venue.features.Artifact 
+    WHERE Venue.name = ? AND Venue.year >= ?
+    ORDER BY Venue.year DESC; 1
+
+--Q2
+SELECT Artifact.id, Artifact.title, Artifact.authors, Artifact.keywords, Venue.name
+    FROM Artifact.features.Venue
+    WHERE Artifact.authors = ?
+    ORDER BY Venue.year DESC; 1
+
+--Q3
+SELECT User.id, User.name, User.email, User.expertises
+    FROM Artifact.likes.User
+    WHERE Artifact.id = ?; 1
+
+--Q4
+SELECT User.id, User.name, User.email, User.expertises
+    FROM Artifact.likes.User
+    WHERE Artifact.id = ? AND User.expertises = ?; 1
+
+--Q5
+SELECT Review.rating
+    FROM Artifact.rates.Review
+    WHERE Artifact.id = ?; 1
+
+--Q6
+SELECT Venue.name, Venue.year, Venue.homepage, Venue.country, Venue.topics
+    FROM User.likes.Venue 
+    WHERE User.id = ?  ; 1
+
+--Q7
+SELECT Artifact.title, Artifact.authors
+    FROM User.likes.Artifact.features.Venue
+    WHERE User.id = ? AND Venue.year >= ?
+    ORDER BY Venue.year DESC; 1
+
+--Q8
+SELECT Review.id, Review.rating, Review.body, Review.date, Review.title
+    FROM User.posts.Review
+    WHERE User.id = ? AND Review.rating >= ?
+    ORDER BY Review.rating DESC; 1
+
+--Q9
+SELECT Artifact.id, Artifact.title, Artifact.authors, Artifact.keywords
+    FROM Artifact
+    WHERE Artifact.id = ?; 1
+
+
+
+
+
+
