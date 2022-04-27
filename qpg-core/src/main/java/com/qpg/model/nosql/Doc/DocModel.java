@@ -40,6 +40,11 @@ public class DocModel extends NoSQLDataUnit {
 
     mergeIndexes();
     setKeys();
+    if(keys.isEmpty()){
+      for(UMLAttribute a: root.getUmlClass().getPks()){
+        keys.add(new DocField(root.getNodeName(),a,prefix));
+      }
+    }
   }
 
   private void mergeIndexes(){

@@ -35,12 +35,14 @@ public class ExecutionPlan {
     execution_plan.get(o).add(al);
   }
 
-  public void changeExecutionPlan(Object o, String old_l, String new_l){
+  private void changeExecutionPlan(Object o, String old_l, String new_l){
     check(o);
     if(execution_plan.get(o) == null)
       execution_plan.put(o, new HashSet<>());
-    execution_plan.get(o).remove(old_l);
-    execution_plan.get(o).add(new_l);
+    if(execution_plan.get(o).contains(old_l)) {
+      execution_plan.get(o).remove(old_l);
+      execution_plan.get(o).add(new_l);
+    }
   }
 
   public void changeExecutionPlan(QPGNode node, String old_l, String new_l){
