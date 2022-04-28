@@ -97,7 +97,7 @@ EXEC QUERY Q1{
                              }
 
  EXEC QUERY Q19 {
-     q19_2 [regions_id, categories_id][items_end_date >=][]
+     q19 [regions_id, categories_id][items_end_date >=][]
      [users_id, items_id, items_name, items_initial_price, items_max_bid, items_nb_of_bids, items_end_date]
      }
 
@@ -110,7 +110,7 @@ EXEC QUERY Q1{
    q3_10_11_13_18_1 QUERY[items_id] UPDATE [items_name],
    q6 QUERY [items_id] UPDATE [item_name],
    q17 QUERY [items_id] UPDATE [item_name],
-   q19_2 QUERY [items_id] UPDATE [item_name]
+   q19 QUERY [items_id] UPDATE [item_name]
    }
 
   EXEC UPDATE users{
@@ -141,7 +141,7 @@ EXEC QUERY Q1{
 
   EXEC UPDATE items_users{
   q17 QUERY [items_id] UPDATE [items_name],
-  q19_2  QUERY [items_id] UPDATE [items_name]
+  q19  QUERY [items_id] UPDATE [items_name]
   }
 
   EXEC UPDATE buynow_users{
@@ -154,7 +154,7 @@ EXEC QUERY Q1{
   }
 
   EXEC UPDATE user_region{
-  q19_2 QUERY[users_id] UPDATE [items_name]
+  q19 QUERY[users_id] UPDATE [items_name]
   }
 
   -- non EXEC UPDATE item_comment{}
@@ -165,7 +165,7 @@ EXEC QUERY Q1{
 
   EXEC UPDATE item_category{
   q6 QUERY [items_id] UPDATE [items_name],
-  q19_2 QUERY [items_id] UPDATE [items_name]
+  q19 QUERY [items_id] UPDATE [items_name]
   }
 
   EXEC UPDATE item_bid{

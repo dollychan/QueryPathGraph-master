@@ -16,5 +16,4 @@ dsbulk load -h $1  -k rubis_qpg -t q8  -url csv_output_dir/Q8.csv
 dsbulk load -h $1  -k rubis_qpg -t q4_2  -url csv_output_dir/Q4_2.csv
 dsbulk load -h $1  -k rubis_qpg -t q15_2  -url csv_output_dir/Q15_2.csv
 dsbulk load -h $1  -k rubis_qpg -t q18_2  -url csv_output_dir/Q18_2.csv
-dsbulk load -h $1  -k rubis_qpg -t q19_2  -url csv_output_dir/Q19.csv
 dsbulk load -h $1  -k rubis_qpg -t q16_2  -url csv_output_dir/Q16_2.csv

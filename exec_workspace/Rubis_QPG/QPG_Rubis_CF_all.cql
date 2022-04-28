@@ -225,22 +225,6 @@ Users_id int,
   create index if not exists  q19_items_id on q19 (items_id);
    create index if not exists  q19_users_id on q19 (users_id);
 
- create table if not exists Q19_2(
- Categories_id int,
- Regions_id int,
- Items_id int,
- Items_end_date timestamp,
- Items_name text,
- Items_initial_price float,
- Items_nb_of_bids int,
- Items_max_bid float,
- Users_id int,
-  PRIMARY KEY ((Regions_id, Categories_id ), Items_end_date, Users_id, Items_id))
-  WITH caching = { 'keys' : 'NONE', 'rows_per_partition' : 'NONE' };
-
-create index if not exists  q19_2_items_id on q19_2 (items_id);
-create index if not exists  q19_2_users_id on q19_2 (users_id);
-
 create table if not exists Q20(
 Regions_dummy int,
 Regions_id int,
