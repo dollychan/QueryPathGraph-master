@@ -18,6 +18,17 @@ public class SASpecification {
     agg_pa_attrs = new HashMap<>();
   }
 
+  public boolean isUsedInAgg(String al){
+    if(agg_ea_attrs.get(al) != null && !agg_ea_attrs.get(al).isEmpty())
+      return true;
+    if(agg_ia_attrs.get(al) != null && !agg_ia_attrs.get(al).isEmpty())
+      return true;
+    if(agg_oa_attrs.get(al) != null && !agg_oa_attrs.get(al).isEmpty())
+      return true;
+    if(agg_pa_attrs.get(al) != null && !agg_pa_attrs.get(al).isEmpty())
+      return true;
+    return false;
+  }
   public void addEAattrs(String agg_label, UMLAttribute attr){
     addSAattrs(agg_label,attr,agg_ea_attrs);
   }

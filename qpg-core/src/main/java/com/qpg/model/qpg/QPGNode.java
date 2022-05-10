@@ -26,8 +26,14 @@ public class QPGNode {
     sa_labels = new SASpecification();
   }
 
+  //non-primary key attribute is used in the aggregation al
   public boolean isStoredInAgg(String al){
     return  QPGGenerator.executionPlan.contains(umlClass, al);
+  }
+
+  //any attribute is used in the aggregation al
+  public boolean involvedInAgg(String al){
+    return sa_labels.isUsedInAgg(al);
   }
   public UMLClass getUmlClass(){return umlClass;}
   public QPGEdge getOutEdge(String rel_name, QPGNode endNode){
