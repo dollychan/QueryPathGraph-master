@@ -96,10 +96,15 @@ public class DocModel extends NoSQLDataUnit {
     }
   }
 
-  private void mapNode(QPGNode node, List<String > agg_labels,DocModel doc, String prefix){
+  private void mapNode(QPGNode node, List<String > agg_labels, DocModel doc, String prefix){
     Set<UMLAttribute> keys = new HashSet<>();
     Set<UMLAttribute> attrs = new HashSet<>();
+
+    List<String> node_agg_labels = new ArrayList<>();// different from agg_labels, except the root.
     for(String al: agg_labels){
+      if(node.involvedInAgg(al))
+        node_agg_labels.add(al);
+      else continue;
       keys.addAll(node.getEAattrs(al));
       keys.addAll(node.getIAattrs(al));
       keys.addAll(node.getOAattrs(al));
@@ -109,7 +114,7 @@ public class DocModel extends NoSQLDataUnit {
     for(UMLAttribute attr: keys){
       DocField f = new DocField(node.getUmlClass().getName(), attr, prefix);
       doc.addField(f);
-      for(String al: agg_labels){
+      for(String al:node_agg_labels){
         if(node.getEAattrs(al).contains(attr)) addIndex(al, f);
         if(node.getIAattrs(al).contains(attr)) addIndex(al,f);
         if(node.getOAattrs(al).contains(attr)) addIndex(al,f);
@@ -131,9 +136,9 @@ public class DocModel extends NoSQLDataUnit {
           doc.addField(f);
           if(!new_prefix.equalsIgnoreCase("")) new_prefix+=".";
           new_prefix = edge.getEndNode().getUmlClass().getName();
-          mapNode(edge.getEndNode(), agg_labels, doc_child, new_prefix);
+          mapNode(edge.getEndNode(), node_agg_labels, doc_child, new_prefix);
         }else{
-          mapNode(edge.getEndNode(), agg_labels, doc, prefix);
+          mapNode(edge.getEndNode(), node_agg_labels, doc, prefix);
         }
       }
     }
