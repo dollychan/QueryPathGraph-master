@@ -35,23 +35,7 @@ public class CFModel extends NoSQLDataUnit {
     }
   }
 
-  public String print(){
-    String str = cf_name+ "[((";
 
-    for(CFColumn col: pks){
-      str += col.col_name + ",";
-    }
-    str+=")";
-    for(CFColumn col: cks){
-      str += col.col_name + ",";
-    }
-    str+=")";
-    for(CFColumn col: cols){
-      str+= col.col_name + ",";
-    }
-    str+="]\n";
-    return str;
-  }
 
   @Override
   public void map(QPGNode root, List<String> agg_labels) {
@@ -194,5 +178,24 @@ public class CFModel extends NoSQLDataUnit {
     str+=")\n WITH caching = { 'keys' : 'NONE', 'rows_per_partition' : 'NONE' };\n";
 
     return str;
+  }
+
+  public String print(){
+    String str = cf_name+ "[((";
+
+    for(CFColumn col: pks){
+      str += col.col_name + ",";
+    }
+    str+=")";
+    for(CFColumn col: cks){
+      str += col.col_name + ",";
+    }
+    str+=")";
+    for(CFColumn col: cols){
+      str+= col.col_name + ",";
+    }
+    str+="]\n";
+    str += genNoSQLScript();
+    return str+"\n";
   }
 }
