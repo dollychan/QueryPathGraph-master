@@ -1,0 +1,170 @@
+-- rubis_smaller
+data range{
+    bids_id	:[20000001, 22000000],
+    buynow_id:[1, 200000] ,
+    categories_id:	[51,550],
+    comments_id: [1,1000000],
+    items_id : [1, 200000],
+    regions_id	:[6, 55],
+    users_id :[1,20000],
+    categories_dummy : [0, 1],
+    regions_dummy : [0, 1]
+    }
+
+EXEC QUERY Q1 {
+    users [users_id][][][users_nickname,users_password]
+    }
+
+EXEC QUERY Q2 {
+    categories [categories_dummy][][][categories_id,categories_name]
+}
+
+EXEC QUERY Q3 {
+    items [items_id][][][items_name]
+}
+
+EXEC QUERY Q4 {
+items[items_id][][bids.bids_date][items_id,bids.bids_id,bids.bids_date,bids.bids_qty,bids.bids_bid,bids.users_id],
+users[users_id][][][users_nickname] users_id:bids.users_id
+}
+
+EXEC QUERY Q5 {
+    items[items_id][][][items_id,bids.bids_id,bids.bids_date,bids.bids_qty,bids.bids_bid]
+    }
+
+EXEC QUERY Q6 {
+  categories[categories_id][items.items_end_date >=][][categories_id,
+        'items.$']
+    }
+
+EXEC QUERY Q7 {
+    users[users_id][][][users_email,users_creation_date,
+    users_id,users_nickname,users_balance,users_password,users_firstname,users_lastname,users_rating]
+    }
+
+EXEC QUERY Q8 {
+    users[users_id][][][users_id,comments.comments_date,
+    comments.comments_rating,comments.comments_id,comments.comments_comment]
+}
+
+ EXEC QUERY Q9 {
+    users[users_id][][][users_id,users_nickname]
+}
+
+EXEC QUERY Q10 {
+    items[items_id][][][items_name,items_reserve_price,items_id,
+    items_nb_of_bids,items_initial_price,items_description,items_buy_now,
+    items_quantity,items_end_date,items_max_bid,items_start_date]
+}
+
+EXEC QUERY Q11 {
+    items [items_id][][][items_id,items_nb_of_bids,items_quantity,items_end_date]
+  }
+
+EXEC QUERY Q12 {
+    items[items_id][][bids.bids_bid][items_id,bids.bids_id,bids.bids_date,bids.bids_qty]
+    }
+
+EXEC QUERY Q13 {
+    items[items_id][][][items_id,items_nb_of_bids,items_max_bid]
+    }
+
+EXEC QUERY Q14 {
+    users[users_id][][][users_id,users_rating]
+    }
+
+EXEC QUERY Q15 {
+    comments[comments_id][][][comments_id,users_id],
+    users[users_id][][][users_nickname]
+    }
+
+-- db.users.find({"users_id": 15954,"buynow.buynow_date": {"$gt": "2021-07-07"}},{"buynow.$":1}).pretty();
+EXEC QUERY Q16 {
+users [users_id][buynow.buynow_date >=][][users_id,'buynow.$'],
+    items[items_id][][][items_name,items_reserve_price,items_id,items_nb_of_bids,
+        items_initial_price,items_description,items_buy_now,items_quantity,
+        items_end_date,items_max_bid,items_start_date] items_id:buynow.items_id
+    }
+
+EXEC QUERY Q17 {
+    users[users_id][items.items_end_date >=][][users_id, 'items.$']
+    }
+
+EXEC QUERY Q18 {
+    users[users_id][bids.items_end_date >=][][users_id, 'bids.$']
+    }
+
+EXEC QUERY Q19 {
+    regions[regions_id,categories_id][users.items.items_end_date >=][][users.users_id, 'users.items.$']
+    }
+
+EXEC QUERY Q20 {
+    regions[regions_dummy][][][regions_id,regions_name]
+    }
+
+DATA TYPE{
+        bids_date date,
+        items_end_date date,
+        buynow_date date,
+        items_name string,
+       comments_comment string,
+       users_nickname string
+}
+
+EXEC UPDATE items {
+    items QUERY [items_id] UPDATE [items_name],
+    categories QUERY[items.items_id] UPDATE[items.items_name],
+    users QUERY[items.items_id] UPDATE[items.items_name],
+    users QUERY[bids.items_id] UPDATE[bids.items_name],
+    regions QUERY [users.items.items_id] UPDATE [users.items.items_name]}
+
+EXEC UPDATE users {
+    users QUERY [users_id] UPDATE [users_nickname]
+   }
+
+EXEC UPDATE comments {
+    users QUERY [comments.comments_id] UPDATE [comments.comments_comment]}
+
+EXEC UPDATE buynow {
+     users QUERY [buynow.buynow_id] UPDATE [buynow.buynow_date]}
+
+EXEC UPDATE bids {
+    items QUERY [bids.bids_id] UPDATE [bids.bids_date]}
+
+
+EXEC UPDATE from_user {
+    comments QUERY [comments_id] UPDATE []}
+
+EXEC UPDATE to_user {
+    users QUERY [comments.comments_id] UPDATE [comments.comments_comment]}
+
+--seller
+EXEC UPDATE items_users {
+    users QUERY [items.items_id] UPDATE [items.items_name],
+    regions QUERY [users.items.items_id] UPDATE [users.items.items_name] }
+
+--buyer
+EXEC UPDATE buynow_users {
+    users QUERY [buynow.buynow_id] UPDATE [buynow.buynow_date]
+     }
+
+EXEC UPDATE user_bid {
+    items QUERY [bids.bids_id] UPDATE [bids.bids_date],
+    users QUERY [bids.bids_id] UPDATE []}
+
+EXEC UPDATE user_region {
+    regions QUERY [users.users_id] UPDATE []
+    }
+
+EXEC UPDATE item_buynow {
+    users QUERY [buynow.buynow_id] UPDATE [buynow.buynow_date]
+    }
+
+EXEC UPDATE item_category {
+    categories QUERY[items.items_id] UPDATE[items.items_name],
+    regions QUERY [users.items.items_id] UPDATE [users.items.items_name]
+}
+
+EXEC UPDATE item_bid {
+    items QUERY [bids.bids_id] UPDATE [bids.bids_date],
+    users QUERY [bids.bids_id] UPDATE [] }

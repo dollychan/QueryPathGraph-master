@@ -1,0 +1,105 @@
+class Order {
+    int id [K], 
+    date saleDate,
+    float totalPrice
+}1
+
+class Carrier {
+    int id [K], 
+    string name,
+    string* contacts
+}1
+
+class Payment {
+    int id [K], 
+    date date
+}1
+
+class Item  {
+    int id [K],
+    int quantity
+}1
+
+class Customer  {
+    int id [K], 
+    string name,
+    string* contacts
+}1
+
+class Product  {
+    int id [K], 
+    float price,
+    string description
+}1
+
+class Supplier  {
+    int id [K], 
+    string name,
+    string* contacts
+}1
+
+class Category  {
+    int id [K],
+    string description
+}1
+
+class Bill {
+ int id [K]
+}
+
+class CreditCard{
+ int id [K],
+ int cardNum
+}
+
+REL requests: Order[34] , Customer[1] ;
+REL consists_of: Item[6] ,Order[1];
+REL delivers : Carrier[1], Order[69622] [date deliveryDate];
+REL commits: Payment[1], Order[1];
+REL references: Product[1], Item[1988];
+REL furnishes: Supplier[1] , Product[5];
+REL catalogues: Category[1] , Product[14];
+REL union_type: Payment[1], Bill[1];
+REL union_type: Payment[1], CreditCard[1];
+
+--Q1
+   SELECT Order.id, Order.saleDate, Order.totalPrice, Customer.id, Customer.name, Customer.contacts,
+   Item.id, Item.quantity, Product.id, Product.price, Product.description
+   FROM Order.consists_of.Item.references.Product,Order.requests.Customer
+   WHERE Order.id = ?; 15
+
+--Q2
+    SELECT  Order.id, Order.saleDate, Order.totalPrice, Customer.id, Customer.name, Customer.contacts,
+     Payment.id, Payment.date, Bill.id, CreditCard.cardNum
+    FROM Order.commits.Payment.union_type.CreditCard,Order.requests.Customer, Payment.union_type.Bill
+    WHERE Order.id = ?; 9
+
+--Q3
+    SELECT Customer.id, Customer.name, Customer.contacts,
+    Order.id, Order.saleDate, Order.totalPrice, delivers.deliveryDate,
+     Carrier.id, Carrier.name, Carrier.contacts
+    FROM Customer.requests.Order.delivers.Carrier
+    WHERE Customer.id = ?; 4.5
+
+--Q4
+ SELECT Customer.id, Customer.name, Customer.contacts,
+      Order.id, Order.saleDate, Order.totalPrice, Payment.id, Payment.date,Bill.id, CreditCard.cardNum
+    FROM Customer.requests.Order.commits.Payment.union_type.CreditCard,Payment.union_type.Bill
+    WHERE Customer.id = ?; 3
+
+--Q5
+SELECT  Product.id, Product.price, Product.description,
+    Order.id, Order.saleDate, Order.totalPrice, Item.id, Item.quantity
+   FROM Product.references.Item.consists_of.Order
+   WHERE Product.id = ?; 1
+
+--Q6
+    SELECT Supplier.id, Supplier.name, Supplier.contacts,
+    Product.id, Product.price, Product.description , Category.id, Category.description
+    FROM Supplier.furnishes.Product.catalogues.Category
+    WHERE Supplier.id = ?; 1
+
+
+
+
+

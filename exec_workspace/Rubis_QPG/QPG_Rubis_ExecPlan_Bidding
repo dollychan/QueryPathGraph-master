@@ -1,0 +1,174 @@
+data range{
+    bids_id	:[20000001, 40000000],
+    buynow_id:[1, 2000000] ,
+    categories_id:	[51,550],
+    comments_id: [1,10000000],
+    items_id : [1, 2000000],
+    regions_id	:[6, 55],
+    users_id :[1,200000],
+    categories_dummy : [0, 1],
+    regions_dummy : [0, 1]
+    }
+
+DATA TYPE{
+        bids_date date,
+        items_end_date date,
+        buynow_date date,
+        items_name string,
+       comments_comment string,
+       users_nickname string
+}
+
+EXEC QUERY Q1{
+     q1_7_9_14 [users_id][][][users_nickname, users_password]
+     }
+
+ EXEC QUERY Q2{
+     q2 [categories_dummy][][][categories_id, categories_name] }
+
+ EXEC QUERY Q3 {
+      q3_10_11_13 [items_id][][][items_name]
+      }
+
+ EXEC QUERY Q4 {
+      q4_2 [items_id][][bids_date][users_id, bids_id, items_id, bids_qty, bids_bid, bids_date],
+      q1_7_9_14 [users_id][][][users_nickname]
+      }
+
+ EXEC QUERY Q5 {
+      q5_12 [items_id][][][bids_id, bids_qty, bids_bid,  bids_date ]
+       }
+
+ EXEC QUERY Q6{
+        q6 [categories_id][items_end_date >=][]
+             [items_id, items_name, items_initial_price, items_max_bid, items_nb_of_bids, items_end_date]
+          }
+
+ EXEC QUERY Q7 {
+    q1_7_9_14 [users_id][][]
+  [users_id, users_firstname, users_lastname, users_nickname, users_password,
+ users_email, users_rating, users_balance, users_creation_date] }
+
+ EXEC QUERY Q8 {
+     q8[users_id][][][comments_id, comments_rating, comments_date, comments_comment] }
+
+ EXEC QUERY Q9 {
+      q1_7_9_14 [users_id][][][users_nickname] }
+
+ EXEC QUERY Q10 {
+      q3_10_11_13 [items_id][][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                             items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date] }
+
+ EXEC QUERY Q11 {
+      q3_10_11_13 [items_id][][][items_quantity, items_nb_of_bids, items_end_date] }
+
+ EXEC QUERY Q12 {
+       q5_12 [items_id][][bids_bid][bids_qty, bids_date] }
+
+ EXEC QUERY Q13 {
+      q3_10_11_13[items_id][][][items_nb_of_bids, items_max_bid] }
+
+ EXEC QUERY Q14 {
+      q1_7_9_14 [users_id][][][users_rating]
+       }
+
+ EXEC QUERY Q15 {
+      q15_2 [comments_id][][][users_id] ,
+      q1_7_9_14 [users_id][][][users_nickname]
+      }
+
+ EXEC QUERY Q16 {
+       q16_2 [users_id][buynow_date >=][][buynow_id, buynow_qty, buynow_date, items_id],
+       q3_10_11_13[items_id][][][items_name, items_description,
+               items_initial_price, items_quantity, items_reserve_price, items_buy_now,
+              items_nb_of_bids, items_max_bid, items_start_date, items_end_date]
+              }
+
+ EXEC QUERY Q17 {
+      q17 [users_id][items_end_date >=][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                                            items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid,
+                                            items_start_date, items_end_date ]
+     }
+
+ EXEC QUERY Q18 {
+       q18 [users_id][items_end_date >=][][bids_id, items_id, items_name, items_description, items_initial_price, items_quantity,
+                                   items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date]
+       }
+
+ EXEC QUERY Q19 {
+     q19 [regions_id, categories_id][items_end_date >=][]
+     [users_id, items_id, items_name, items_initial_price, items_max_bid, items_nb_of_bids, items_end_date]
+     }
+
+ EXEC QUERY Q20 {
+   q20 [regions_dummy][][][regions_id, regions_name]
+   }
+
+
+
+ EXEC UPDATE items {
+   Q3_10_11_13 QUERY[items_id] UPDATE [items_name],
+   q6 QUERY [items_id] UPDATE [item_name],
+   q17 QUERY [items_id] UPDATE [item_name],
+   q18 QUERY [items_id] UPDATE [item_name],
+   q19 QUERY [items_id] UPDATE [item_name]
+   }
+
+  EXEC UPDATE users{
+      q1_7_9_14  QUERY [users_id] UPDATE [users_nickname]
+  }
+
+  EXEC UPDATE comments{
+  q8 QUERY [comments_id] UPDATE [comments_comment]
+  }
+
+  EXEC UPDATE buynow{
+      q16_2  QUERY [buynow_id] UPDATE [buynow_date]
+  }
+
+  EXEC UPDATE bids{
+  q4_2 QUERY [bids_id] UPDATE[bids_date],
+  q5_12 QUERY[bids_id] UPDATE [bids_date]
+  }
+
+  /*comment->user*/
+  EXEC UPDATE from_user{
+  q15_2 QUERY [comments_id] UPDATE []
+  }
+
+  EXEC UPDATE to_user{
+  q8 QUERY [comments_id] UPDATE [comments_comment]
+  }
+
+  EXEC UPDATE items_users{
+  q17 QUERY [items_id] UPDATE [items_name],
+  q19  QUERY [items_id] UPDATE [items_name]
+  }
+
+  EXEC UPDATE buynow_users{
+  q16_2 QUERY[buynow_id] UPDATE [buynow_date]
+  }
+
+  EXEC UPDATE user_bid{
+  q4_2 QUERY[bids_id] UPDATE [bids_date],
+   q18 QUERY[bids_id] UPDATE [items_name]
+  }
+
+  EXEC UPDATE user_region{
+  q19 QUERY[users_id] UPDATE [items_name]
+  }
+
+  EXEC UPDATE item_buynow{
+  q16_2 QUERY [buynow_id] UPDATE [buynow_date]
+  }
+
+  EXEC UPDATE item_category{
+  q6 QUERY [items_id] UPDATE [items_name],
+  q19 QUERY [items_id] UPDATE [items_name]
+  }
+
+  EXEC UPDATE item_bid{
+  q4_2 QUERY[bids_id] UPDATE [bids_date],
+  q5_12 QUERY [bids_id] UPDATE [bids_date],
+  q18 QUERY[bids_id] UPDATE [items_name]
+  }

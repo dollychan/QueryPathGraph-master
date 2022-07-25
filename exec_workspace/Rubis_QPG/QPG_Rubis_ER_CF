@@ -1,0 +1,108 @@
+TARGET:CF
+
+Q2 
+SQL: 'SELECT Categories.dummy categories_dummy , Categories.id categories_id , Categories.name categories_name
+ FROM  Categories  ;'
+
+Q4
+SQL: 'SELECT Items.id items_id , Bids.date bids_date , Bids.id bids_id ,
+Users.id users_id, Users.nickname users_nickname , Bids.qty bids_qty , Bids.bid bids_bid
+ FROM  Bids ,  Items ,  Users
+ WHERE Users.id = Bids.user AND Items.id=Bids.item  ;'
+
+ -------
+ Q4_2
+ SQL: 'SELECT Items.id items_id , Bids.date bids_date , Bids.id bids_id ,
+ Users.id users_id, Bids.qty bids_qty , Bids.bid bids_bid
+  FROM  Bids ,  Items ,  Users
+  WHERE Users.id = Bids.user AND Items.id=Bids.item  ;'
+
+Q6 
+SQL: 'SELECT Categories.id categories_id , Items.id items_id , Items.end_date items_end_date ,
+Items.name items_name , Items.initial_price items_initial_price , Items.nb_of_bids items_nb_of_bids ,
+ Items.max_bid items_max_bid
+ FROM  Categories ,  Items
+ WHERE Categories.id=Items.category  ;'
+
+Q1_7_9_14 
+SQL: 'SELECT Users.id users_id , Users.firstname users_firstname , Users.lastname users_lastname ,
+Users.nickname users_nickname , Users.password users_password , Users.email users_email ,
+Users.rating users_rating , Users.balance users_balance , Users.creation_date users_creation_date
+ FROM  Users  ;'
+
+Q8 
+SQL: 'SELECT Users.id users_id , Comments.id comments_id , Comments.comment comments_comment ,
+Comments.rating comments_rating , Comments.date comments_date
+ FROM  Comments ,  Users
+ WHERE Users.id = Comments.to_user ;'
+
+Q3_10_11_13
+SQL: 'SELECT Items.id items_id , Items.name items_name , Items.description items_description , 
+Items.initial_price items_initial_price , Items.quantity items_quantity , Items.reserve_price items_reserve_price , 
+Items.nb_of_bids items_nb_of_bids , Items.max_bid items_max_bid , Items.start_date items_start_date , 
+Items.end_date items_end_date , Items.buy_now items_buy_now
+ FROM  Items  ;'
+
+Q5_12
+SQL: 'SELECT Items.id items_id , Bids.bid bids_bid , Bids.id bids_id , Bids.qty bids_qty , Bids.date bids_date
+ FROM  Bids ,  Items
+ WHERE Items.id=Bids.item  ;'
+
+---------
+Q15
+SQL: 'SELECT Comments.id comments_id , Users.id users_id, Users.nickname users_nickname
+ FROM  Comments ,  Users
+ WHERE Users.id = Comments.from_user  ;'
+
+ Q15_2
+ SQL: 'SELECT Comments.id comments_id , Users.id users_id
+  FROM  Comments ,  Users
+  WHERE Users.id = Comments.from_user  ;'
+
+Q16
+SQL: 'SELECT Users.id users_id , Buynow.id buynow_id , Buynow.date buynow_date ,Items.id items_id, 
+Items.name items_name , Items.description items_description , 
+Items.initial_price items_initial_price , Items.quantity items_quantity , Items.reserve_price items_reserve_price , 
+Items.nb_of_bids items_nb_of_bids , Items.max_bid items_max_bid , Items.start_date items_start_date , 
+Items.buy_now items_buy_now , Items.end_date items_end_date , Buynow.qty buynow_qty
+ FROM  Buynow ,  Items ,  Users
+ WHERE Users.id = Buynow.buyer AND Items.id=Buynow.item;'
+
+--------------
+Q16_2
+SQL: 'SELECT Users.id users_id , Buynow.id buynow_id , Buynow.date buynow_date ,Items.id items_id, Buynow.qty buynow_qty
+ FROM  Buynow ,  Items ,  Users
+ WHERE Users.id = Buynow.buyer AND Items.id=Buynow.item;'
+
+Q17
+SQL: 'SELECT Users.id users_id , Items.id items_id , Items.end_date items_end_date , 
+Items.name items_name , Items.description items_description , Items.initial_price items_initial_price ,
+ Items.quantity items_quantity , Items.reserve_price items_reserve_price , Items.nb_of_bids items_nb_of_bids ,
+  Items.max_bid items_max_bid , Items.start_date items_start_date , Items.buy_now items_buy_now
+ FROM  Items ,  Users
+ WHERE Users.id=Items.seller  ;'
+
+Q18
+SQL: 'SELECT Users.id users_id , Bids.id bids_id , Items.end_date items_end_date ,Items.id items_id, 
+Items.name items_name , Items.description items_description , Items.initial_price items_initial_price ,
+ Items.quantity items_quantity , Items.reserve_price items_reserve_price , Items.nb_of_bids items_nb_of_bids ,
+  Items.max_bid items_max_bid , Items.start_date items_start_date , Items.buy_now items_buy_now
+ FROM  Bids ,  Items ,  Users
+ WHERE Users.id = Bids.user AND Items.id=Bids.item  ;'
+
+---------------------
+Q18_2
+SQL: 'SELECT Users.id users_id , Bids.id bids_id , Items.id items_id
+ FROM  Bids ,  Items ,  Users
+ WHERE Users.id = Bids.user AND Items.id=Bids.item  ;'
+
+Q19
+SQL: 'SELECT Categories.id categories_id, Regions.id regions_id , Items.id items_id , 
+Items.end_date items_end_date , Items.name items_name , Items.initial_price items_initial_price , 
+Items.nb_of_bids items_nb_of_bids , Items.max_bid items_max_bid, Users.id users_id
+ FROM  Categories ,  Regions ,  Items, Users
+ WHERE Categories.id=Items.category AND Users.id=Items.seller AND Users.region = Regions.id ;'
+
+Q20 
+SQL: 'SELECT Regions.dummy regions_dummy , Regions.id regions_id , Regions.name regions_name
+ FROM  Regions  ;'

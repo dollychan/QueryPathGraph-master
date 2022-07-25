@@ -1,0 +1,47 @@
+TARGET:DOC
+
+Users2 SQL :
+'SELECT * FROM users;'
+{
+    comments ISLIST SQL:'SELECT comments.id, comments.date, comments.rating, comments.comment FROM comments WHERE comments.to_user = ?;' (id),
+    buynow ISLIST SQL:'SELECT buynow.id, buynow.qty, buynow.date, buynow.item items_id FROM buynow WHERE buynow.buyer=?;' (id),
+    items ISLIST SQL:'SELECT id, name, description, initial_price, quantity, reserve_price, buy_now, nb_of_bids, max_bid, start_date, end_date
+        FROM items WHERE seller=?;' (id),
+     bids ISLIST SQL:'SELECT bids.id, bids.item items_id
+            FROM bids WHERE  bids.user = ?;' (id)
+}
+
+/*
+Users SQL :
+'SELECT * FROM users;'
+{
+    comments ISLIST SQL:'SELECT comments.id, comments.date, comments.rating, comments.comment FROM comments WHERE comments.to_user = ?;' (id),
+    buynow ISLIST SQL:'SELECT buynow.id, buynow.qty, buynow.date, buynow.item items_id FROM buynow WHERE buynow.buyer=?;' (id),
+    items ISLIST SQL:'SELECT id, name, description, initial_price, quantity, reserve_price, buy_now, nb_of_bids, max_bid, start_date, end_date
+        FROM items WHERE seller=?;' (id),
+   bids ISLIST SQL:'SELECT bids.id,  items.id, name, description, initial_price, quantity, reserve_price, buy_now, nb_of_bids, items.max_bid, start_date, end_date
+        FROM bids, items WHERE bids.item = items.id AND bids.user = ?;' (id)
+}
+
+Categories SQL: 'SELECT * FROM categories;'
+{
+ items ISLIST SQL:'SELECT id, name, initial_price, nb_of_bids, max_bid, end_date
+        FROM items WHERE category=?;' (id)
+}
+
+Comments SQL: 'SELECT id, from_user users_id FROM comments ;'
+
+Items SQL:'SELECT id, name, description, initial_price, quantity, reserve_price, buy_now, nb_of_bids, max_bid, start_date, end_date
+              FROM items ;'
+   {
+   bids ISLIST SQL:'SELECT id, bid, qty, date, user users_id FROM bids WHERE item = ?;' (id)
+   }
+
+Regions SQL:' SELECT * FROM regions ;'
+{
+    users ISLIST SQL:' SELECT users.id FROM users WHERE region = ? ;'(id)
+    {
+     items ISLIST SQL:'SELECT id, name, initial_price, nb_of_bids, max_bid, end_date, category categories_id
+            FROM items WHERE seller=?;' (id)
+    }
+}*/

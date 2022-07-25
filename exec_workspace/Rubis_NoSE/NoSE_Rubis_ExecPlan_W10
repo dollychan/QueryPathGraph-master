@@ -1,0 +1,178 @@
+data range{
+    bids_id	:[20000001, 40000000],
+    buynow_id:[1, 2000000] ,
+    categories_id:	[51,550],
+    comments_id: [1,10000000],
+    items_id : [1, 2000000],
+    regions_id	:[6, 55],
+    users_id :[1,200000],
+    categories_dummy : [0, 1],
+    regions_dummy : [0, 1]
+    }
+
+DATA TYPE{
+    bids_date date,
+    items_end_date date,
+    buynow_date date,
+    items_name string,
+    comments_comment string,
+    users_nickname string
+}
+
+EXEC QUERY Q1{
+    i2906147889 [users_id][][][users_nickname, users_password]
+    }
+
+EXEC QUERY Q2{
+    i3722443462 [categories_dummy][][][categories_id, categories_name] }
+
+EXEC QUERY Q3 {
+     i1888493477 [items_id][][][items_name]
+     }
+
+EXEC QUERY Q4 {
+    i193173044[items_id][][bids_date][users_id, users_nickname, bids_id, items_id, bids_qty, bids_bid, bids_date]
+     }
+
+EXEC QUERY Q5 {
+     i3563903410[items_id][][][bids_id, bids_qty, bids_bid,  bids_date ]
+      }
+
+EXEC QUERY Q6{
+i1175133162 [categories_id]	[items_end_date >=][][items_id],
+i1888493477 [items_id][][][items_id, items_name, items_initial_price,
+    items_max_bid, items_nb_of_bids, items_end_date]
+
+ }
+
+EXEC QUERY Q7 {
+   i2906147889 [users_id][][]
+ [users_id, users_firstname, users_lastname, users_nickname, users_password,
+users_email, users_rating, users_balance, users_creation_date] }
+
+EXEC QUERY Q8 {
+    i3157175159[users_id][][][comments_id, comments_rating, comments_date, comments_comment] }
+
+EXEC QUERY Q9 {
+     i2906147889[users_id][][][users_nickname] }
+
+EXEC QUERY Q10 {
+     i1888493477[items_id][][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                            items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date] }
+
+EXEC QUERY Q11 {
+     i1888493477[items_id][][][items_quantity, items_nb_of_bids, items_end_date] }
+
+EXEC QUERY Q12 {
+       i3563903410[items_id][][bids_bid][bids_qty, bids_date] }
+
+EXEC QUERY Q13 {
+     i1888493477[items_id][][][items_nb_of_bids, items_max_bid] }
+
+EXEC QUERY Q14 {
+     i2906147889[users_id][][][users_rating]
+      }
+
+EXEC QUERY Q15 {
+     i3128537325 [comments_id][][][users_id],
+     i2906147889[users_id][][][users_nickname]
+
+     }
+
+EXEC QUERY Q16 {
+      i2653317939[users_id][buynow_date >=][][buynow_id, buynow_qty, buynow_date, items_id, items_name, items_description,
+                                     items_initial_price, items_quantity, items_reserve_price, items_buy_now,
+                                     items_nb_of_bids, items_max_bid, items_start_date, items_end_date
+                                          ] }
+
+EXEC QUERY Q17 {
+     i2337785568[users_id][][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                                           items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date ],
+    FILTER [items_end_date >= ]
+    }
+
+EXEC QUERY Q18 {
+      i3553045793[users_id][][][bids_id, items_id],
+      i1888493477[items_id][][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                                  items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date],
+      FILTER [items_end_date >=]
+      }
+
+EXEC QUERY Q19 {
+i184475158[categories_id,regions_id][][][users_id, items_id, items_name,
+                                             items_initial_price, items_max_bid, items_nb_of_bids, items_end_date],
+     FILTER [items_end_date >=]
+
+     }
+
+EXEC QUERY Q20 {
+  i590232953 [regions_dummy][][][regions_id, regions_name] }
+
+EXEC UPDATE items {
+ i1888493477 QUERY[items_id] UPDATE [items_name],
+ i184475158 QUERY [items_id] UPDATE [items_name],
+ i1175133162 QUERY [items_id] UPDATE [items_name],
+ i2653317939 QUERY [items_id] UPDATE [items_name],
+ i2337785568 QUERY [items_id] UPDATE [items_name],
+ i3553045793 QUERY [items_id] UPDATE [items_end_date]
+ }
+
+EXEC UPDATE users{
+    i193173044 QUERY [users_id] UPDATE [users_nickname]
+}
+
+EXEC UPDATE comments{
+i3157175159 QUERY [comments_id] UPDATE [comments_comment]
+}
+
+EXEC UPDATE buynow{
+    i2653317939  QUERY [buynow_id] UPDATE [buynow_date]
+}
+
+EXEC UPDATE bids{
+i193173044 QUERY [bids_id] UPDATE[bids_date],
+i3563903410 QUERY[bids_id] UPDATE [bids_date]
+}
+
+/*comment->user*/
+EXEC UPDATE from_user{
+i3128537325 QUERY [comments_id] UPDATE [users_nickname]
+}
+
+EXEC UPDATE to_user{
+i3157175159 QUERY [comments_id] UPDATE [comments_comment]
+}
+
+EXEC UPDATE items_users{
+i184475158 QUERY [items_id] UPDATE [items_name],
+i2337785568  QUERY [items_id] UPDATE [items_name]
+}
+
+EXEC UPDATE buynow_users{
+i2653317939 QUERY[buynow_id] UPDATE [buynow_date]
+}
+
+EXEC UPDATE user_bid{
+i193173044 QUERY[bids_id] UPDATE [bids_date],
+ i3553045793 QUERY[bids_id] UPDATE [items_end_date]
+}
+
+EXEC UPDATE user_region{
+i184475158 QUERY[users_id] UPDATE [items_name]
+}
+
+
+EXEC UPDATE item_buynow{
+i2653317939 QUERY [buynow_id] UPDATE [buynow_date]
+}
+
+EXEC UPDATE item_category{
+i184475158 QUERY [items_id] UPDATE [items_name],
+i1175133162 QUERY [items_id] UPDATE [items_name]
+}
+
+EXEC UPDATE item_bid{
+i193173044 QUERY[bids_id] UPDATE [bids_date],
+i3563903410 QUERY [bids_id] UPDATE [bids_date],
+  i3553045793 QUERY [bids_id] UPDATE [items_end_date]
+}

@@ -1,0 +1,18 @@
+TARGET:CF
+
+carrier SQL: 'SELECT * FROM carrier;'
+
+category SQL: 'SELECT * FROM category;'
+
+customer SQL: 'SELECT * FROM customer;'
+
+item SQL: 'SELECT item.id, item.quantity, orders orders_id, product product_id FROM item;'
+
+orders SQL: 'SELECT orders.id, orders.totalPrice, orders.saleDate, orders.customer customer_id, orders.payment payment_id, payment.paymentDate,
+delivery.carrier carrier_id, delivery.deliveryDate
+    FROM orders, payment, delivery
+    WHERE orders.payment = payment.id AND delivery.id = orders.id;'
+
+product SQL: 'SELECT * , category category_id, supplier supplier_id FROM product;'
+
+supplier SQL: 'SELECT * FROM supplier;'

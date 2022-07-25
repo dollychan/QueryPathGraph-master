@@ -1,0 +1,47 @@
+TARGET:CF
+
+
+--6_1[((Supplier_id,)Product_id,)Category_id,Product_price,Product_description,]
+
+q6_1 SQL:'SELECT supplier.id, product.id, product.category category_id, product.price, product.description
+    FROM supplier, product
+    WHERE product.supplier = supplier.id ;'
+
+-- 6[((Supplier_id,))Supplier_name,Supplier_contacts,]
+
+q6 SQL:'SELECT * FROM supplier;'
+
+-- 6_2[((Category_id,))Category_description,]
+
+q6_2 SQL:'SELECT * FROM category; '
+
+-- 5_1[((Product_id,)Item_id,)Item_quantity,Order_totalPrice,Order_id,Order_saleDate,]
+
+q5_1 SQL:'SELECT item.product product_id, item.id, item.quantity, orders.totalprice, orders.id, orders.saleDate
+    FROM item, orders
+    WHERE item.orders = orders.id;'
+
+--1_2_5[((Product_id,))Product_price,Product_description,]
+
+q1_2_5 SQL: 'SELECT id, price, description from product;'
+
+-- 3_2[((Carrier_id,))Carrier_contacts,Carrier_name,]
+
+q3_2 SQL: 'SELECT * FROM carrier;'
+
+-- 1[((Order_id,)Item_id,)Product_id,Item_quantity,Order_totalPrice,Order_saleDate,]
+-- same as 5_1
+
+-- 2_1_1[((Order_id,)),Order_totalPrice,Order_saleDate,Customer_id,Payment_id,Payment_date,]
+q2_1_1 SQL:' SELECT orders.id, orders.totalPrice, orders.saleDate, orders.customer customer_id, payment.id, payment.paymentdate
+   FROM orders, payment WHERE  orders.id = payment.id;'
+
+-- 3_2_1_4_1_3[((Customer_id,))Customer_contacts,Customer_name,]
+q3_2_1_4_1_3 SQL:'SELECT * FROM customer;'
+
+-- 3_1_4_1[((Customer_id,)Order_id,),Carrier_id,Order_totalPrice,Order_saleDate,Payment_id,Payment_date,delivers_deliveryDate,]
+q3_1_4_1 SQL:'SELECT orders.id, delivery.carrier carrier_id,orders.customer customer_id,
+    orders.totalprice, orders.saledate, payment.id, payment.paymentdate, delivery.deliveryDate
+    FROM orders, payment, delivery
+   WHERE orders.id = payment.id
+   AND  delivery.id = orders.id ;'

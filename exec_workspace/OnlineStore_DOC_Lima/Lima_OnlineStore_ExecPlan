@@ -1,0 +1,109 @@
+data range{
+    customer_id	:[1, 32418],
+    orders_id:[1, 1113951],
+    product_id:	[1,900],
+    category_id:[1,61],
+    supplier_id:[1,165],
+    carrier_id:[1,16],
+    orders.orders_id: [1, 1113951],
+    product_supplier : [1,165],
+    item_id :[1,1789082]
+    }
+
+
+EXEC QUERY Q1{
+customer [orders.orders_id][][][customer_id, customer_name,customer_contacts,
+        'orders.$' ] orders.orders_id: orders_id,
+    product [product_id][][][product_id, product_price, product_description]
+    product_id : orders.items.item_product
+}
+
+
+EXEC QUERY Q2{
+    customer [orders.orders_id][][][customer_id, customer_name,customer_contacts,
+                     'orders.$'] orders.orders_id:orders_id
+}
+
+EXEC QUERY Q3{
+     customer [customer_id][][][customer_id, customer_name,customer_contacts,
+                         orders.orders_id, orders.orders_totalPrice, orders.orders_saleDate,
+                         orders.carrier.delivery_deliveryDate, orders.carrier.delivery_carrier],
+
+    carrier [carrier_id][][][carrier_id, carrier_name, carrier_contacts]
+    carrier_id : orders.carrier.delivery_carrier
+}
+
+EXEC QUERY Q4{
+      customer [customer_id][][][customer_id, customer_name,customer_contacts,
+                              orders.orders_id, orders.orders_totalPrice, orders.orders_saleDate,
+                              orders.orders_payment, orders.payment_paymentDate]
+      }
+
+
+EXEC QUERY Q5{
+--product->item->order
+   product [product_id][][][product_id, product_price, product_description],
+   customer [orders.items.item_product][][]['orders.$' ] orders.items.item_product : product_id
+}
+
+
+EXEC QUERY Q6{
+product [product_supplier][][][product_id, product_price, product_description,
+    product_supplier, product_category] product_supplier:supplier_id,
+supplier [supplier_id][][][supplier_id, supplier_name,supplier_contacts]
+   supplier_id:product_supplier,
+    category [category_id][][][category_id, category_description] category_id : product_category
+}
+
+
+DATA TYPE{
+    product_description string,
+    customer_name string,
+    orders_saleDate date,
+    carrier_name string,
+    item_quantity int,
+    payment_paymentDate date,
+    carrier_name string,
+    category_description string,
+    supplier_name string
+}
+
+--db.customer.find({"customer_id":?}, {"customer_name":1})
+EXEC UPDATE customer{
+    customer QUERY [customer_id] UPDATE [customer_name]
+}
+
+--db.customer.find({"orders.orders_id":?},{"orders.$":1})
+EXEC UPDATE order{
+    customer QUERY [orders.orders_id] UPDATE [orders.orders_saleDate]
+}
+
+-- db.customer.find({"orders.items.item_id":1021483}, {"orders.items.$":1})
+EXEC UPDATE item{
+    customer QUERY [orders.items.item_id] UPDATE [orders.items.item_quantity]
+}
+
+-- db.customer.find({"orders.orders_id":?},{"orders.$":1})  ?
+EXEC UPDATE payment{
+    customer QUERY [orders.orders_id] UPDATE [orders.payment_paymentDate]
+}
+
+--db.product.find({"product_id":?})
+EXEC UPDATE product{
+    product QUERY [product_id] UPDATE [product_description]
+}
+
+--db.carrier.find({"carrier_id":?})
+EXEC UPDATE carrier{
+    carrier QUERY [carrier_id] UPDATE [carrier_name]
+}
+
+-- db.category.find({"category_id":?})
+EXEC UPDATE category{
+    category QUERY [category_id] UPDATE [category_description]
+}
+
+--db.supplier.find({"supplier_id":?})
+EXEC UPDATE supplier{
+    supplier QUERY [supplier_id] UPDATE [supplier_name]
+}

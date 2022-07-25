@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="expr-ycsb" />
+        <module name="prepare-data" />
+        <module name="qpg-core" />
+        <module name="workload-expr" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="expr-ycsb" target="1.8" />
+      <module name="prepare-data" target="1.8" />
+      <module name="qpg-core" target="1.8" />
+      <module name="root" target="1.8" />
+      <module name="workload-expr" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

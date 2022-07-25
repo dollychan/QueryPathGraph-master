@@ -1,0 +1,70 @@
+data range{
+    bids_id	:[20000001, 40000000],
+    buynow_id:[1, 2000000] ,
+    categories_id:	[51,550],
+    comments_id: [1,10000000],
+    items_id : [1, 2000000],
+    regions_id	:[6, 55],
+    users_id :[1,200000],
+    categories_dummy : [0, 1],
+    regions_dummy : [0, 1]
+    }
+
+DATA TYPE{
+    bids_date date,
+    items_end_date date,
+    buynow_date date,
+    items_name string,
+    items_description string,
+    items_initial_price float,
+    items_quantity int,
+    items_reserve_price float,
+    items_buy_now float,
+    items_nb_of_bids int,
+    items_max_bid float,
+    items_start_date date
+}
+
+EXEC QUERY Q1{
+    i2906147889 [users_id][][][users_nickname, users_password]
+    }
+
+EXEC QUERY Q2{
+    i3722443462 [categories_dummy][][][categories_id, categories_name] }
+
+EXEC QUERY Q3 {
+     i1888493477 [items_id][][][items_name]
+     }
+
+EXEC QUERY Q4 {
+    i193173044[items_id][][bids_date][users_id, users_nickname, bids_id, items_id, bids_qty, bids_bid, bids_date]
+     }
+
+EXEC QUERY Q5 {
+i3220017915 [items_id][][][bids_id, bids_qty, bids_bid,  bids_date ]
+      }
+
+EXEC QUERY Q10 {
+     i1888493477[items_id][][][items_id, items_name, items_description, items_initial_price, items_quantity,
+                            items_reserve_price, items_buy_now, items_nb_of_bids, items_max_bid, items_start_date, items_end_date] }
+
+EXEC QUERY Q6{
+        i3392968797[categories_id][items_end_date >=][]
+            [items_id, items_name, items_initial_price, items_max_bid, items_nb_of_bids, items_end_date]
+         }
+
+EXEC QUERY Q7 {
+   i2906147889 [users_id][][]
+ [users_id, users_firstname, users_lastname, users_nickname, users_password,
+users_email, users_rating, users_balance, users_creation_date] }
+
+EXEC QUERY Q8 {
+    i3157175159[users_id][][][comments_id, comments_rating, comments_date, comments_comment] }
+
+EXEC QUERY Q19 {
+i4047225742 [regions_id, categories_id][items_end_date][][users_id, items_id, items_name,
+            items_initial_price, items_max_bid, items_nb_of_bids]
+}
+
+EXEC QUERY Q20 {
+  i590232953 [regions_dummy][][][regions_id, regions_name] }

@@ -1,0 +1,10 @@
+qpg-core
+    input: conceptual model + query/update patterns
+    output: CF schema/Doc schema + Execplans for each query/update
+
+prepare-data
+    1. use mysql to generate a shared dataset
+    2. transform er data to CF/Doc
+
+workload-expr
+

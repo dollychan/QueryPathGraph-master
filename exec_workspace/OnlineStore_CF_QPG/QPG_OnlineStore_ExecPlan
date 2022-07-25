@@ -1,0 +1,89 @@
+data range{
+    customer_id	:[1, 32418],
+    orders_id:[1, 1113951],
+    product_id:	[1,900],
+    category_id:[1,61],
+    supplier_id:[0,165],
+    carrier_id:[1,16],
+    item_id : [1, 1789082],
+    payment_id:[1, 1113951]
+    }
+
+EXEC QUERY Q1 {
+q1[orders_id][][][orders_totalPrice,orders_id,orders_saleDate,item_id,item_quantity,product_id],
+q2_1_1[orders_id][][][customer_id],
+q1_2_5[product_id][][][product_price,product_description,product_id],
+q3_2_1_4_1_3[customer_id][][][customer_contacts,customer_id,customer_name]
+}
+
+EXEC QUERY Q2 {
+q2_1_1 [orders_id][][][orders_totalPrice,orders_id,orders_saleDate,customer_id, payment_id,payment_paymentdate],
+q3_2_1_4_1_3 [customer_id][][][customer_contacts,customer_id,customer_name]
+}
+
+EXEC QUERY Q3 {
+q3_2_1_4_1_3[customer_id][][][customer_contacts,customer_id,customer_name],
+q3_1_4_1[customer_id][][][orders_totalPrice,orders_id,orders_saleDate,carrier_id,delivery_deliveryDate],
+q3_2[carrier_id][][][carrier_contacts,carrier_id,carrier_name]
+}
+
+EXEC QUERY Q4 {
+q3_2_1_4_1_3[customer_id][][][customer_contacts,customer_id,customer_name],
+q3_1_4_1[customer_id][][][orders_totalPrice,orders_id,orders_saleDate,payment_id, payment_paymentdate]
+}
+
+EXEC QUERY Q5 {
+q1_2_5[product_id][][][product_price,product_description,product_id],
+q5_1[product_id][][][item_id,item_quantity,orders_totalPrice,orders_id,orders_saleDate]
+}
+
+EXEC QUERY Q6 {
+q6[supplier_id][][][supplier_name,supplier_id,supplier_contacts],
+q6_1[supplier_id][][][product_price,product_description,product_id,category_id],
+q6_2[category_id][][][category_id,category_description]
+}
+
+
+ DATA TYPE{
+ item_quantity int,
+ customer_name string,
+ product_description string,
+ carrier_name string,
+ category_description string,
+ supplier_name string,
+ payment_paymentdate date,
+ orders_saledate date
+ }
+
+EXEC UPDATE item {
+q1 QUERY [item_id] UPDATE [item_quantity],
+q5_1 QUERY [item_id] UPDATE [item_quantity]}
+
+EXEC UPDATE product {
+q1_2_5 QUERY [product_id] UPDATE[product_description],
+q6_1 QUERY [product_id] UPDATE[product_description] }
+
+EXEC UPDATE carrier {
+q3_2 QUERY [carrier_id] UPDATE [carrier_name]}
+
+EXEC UPDATE supplier {
+q6 QUERY [supplier_id] UPDATE [supplier_name]}
+
+EXEC UPDATE customer {
+q3_2_1_4_1_3 QUERY [customer_id] UPDATE [customer_name]}
+
+EXEC UPDATE order {
+q1 QUERY [orders_id] UPDATE [orders_saledate],
+q2_1_1 QUERY [orders_id] UPDATE [orders_saledate],
+q3_1_4_1 QUERY [orders_id] UPDATE [orders_saledate],
+q5_1 QUERY [orders_id] UPDATE [orders_saledate]
+}
+
+EXEC UPDATE payment {
+q2_1_1 QUERY [payment_id] UPDATE [payment_paymentdate],
+q3_1_4_1 QUERY [payment_id] UPDATE [payment_paymentdate]}
+
+
+EXEC UPDATE category {
+q6_2 QUERY [category_id] UPDATE [category_description] }
+

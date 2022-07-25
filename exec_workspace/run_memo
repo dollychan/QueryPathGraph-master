@@ -1,0 +1,2 @@
+java -cp ../prepare-data-1.0-SNAPSHOT-jar-with-dependencies.jar com.qpg.dataTransformer.TransformerMain mysql.config >script
+java -cp ../workload-expr-1.0-SNAPSHOT-jar-with-dependencies.jar com.qpg.expr.WorkloadMain workload.config > script

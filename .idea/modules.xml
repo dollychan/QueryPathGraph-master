@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/expr-ycsb/expr-ycsb.iml" filepath="$PROJECT_DIR$/expr-ycsb/expr-ycsb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prepare-data/prepare-data.iml" filepath="$PROJECT_DIR$/prepare-data/prepare-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qpg-core/qpg-core.iml" filepath="$PROJECT_DIR$/qpg-core/qpg-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workload-expr/workload-expr.iml" filepath="$PROJECT_DIR$/workload-expr/workload-expr.iml" />
+    </modules>
+  </component>
+</project>

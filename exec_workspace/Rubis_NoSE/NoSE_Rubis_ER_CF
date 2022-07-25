@@ -1,0 +1,133 @@
+TARGET:CF
+
+i3722443462
+SQL: 'SELECT categories.dummy categories_dummy , categories.id categories_id , categories.name categories_name
+ FROM  categories ;'
+
+i193173044
+SQL: 'SELECT items.id items_id , bids.date bids_date , bids.id bids_id , users.id users_id ,
+   users.nickname users_nickname , bids.qty bids_qty , bids.bid bids_bid
+ FROM  bids ,  items ,  users
+ WHERE Users.id = Bids.user AND Items.id=Bids.item ;'
+
+i1888493477
+SQL: 'SELECT items.id items_id , items.name items_name , items.description items_description ,
+items.initial_price items_initial_price , items.quantity items_quantity ,
+items.reserve_price items_reserve_price , items.buy_now items_buy_now ,
+items.nb_of_bids items_nb_of_bids , items.max_bid items_max_bid ,
+items.start_date items_start_date , items.end_date items_end_date
+ FROM  items ;'
+
+i3264766123
+SQL: 'SELECT items.id items_id , categories.id categories_id
+ FROM  categories ,  items
+ WHERE Categories.id=Items.category ;'
+
+i3392968797
+SQL: 'SELECT categories.id categories_id , items.end_date items_end_date ,
+items.id items_id , items.name items_name , items.initial_price items_initial_price ,
+items.max_bid items_max_bid , items.nb_of_bids items_nb_of_bids
+ FROM  categories ,  items
+ WHERE Categories.id=Items.category ;'
+
+i2906147889
+SQL: 'SELECT users.id users_id , users.firstname users_firstname ,
+users.lastname users_lastname , users.nickname users_nickname ,
+users.password users_password , users.email users_email , users.rating users_rating ,
+users.balance users_balance , users.creation_date users_creation_date
+ FROM  users ;'
+
+i3157175159
+SQL: 'SELECT users.id users_id , comments.id comments_id ,
+comments.rating comments_rating , comments.date comments_date , comments.comment comments_comment
+ FROM  comments ,  users
+ WHERE Users.id = Comments.to_user;'
+
+i3563903410
+SQL: 'SELECT items.id items_id , bids.bid bids_bid , bids.id bids_id ,
+bids.qty bids_qty , bids.date bids_date
+ FROM  bids ,  items
+ WHERE Items.id=Bids.item ;'
+
+i915430138
+SQL: 'SELECT comments.id comments_id , users.id users_id , users.nickname users_nickname
+ FROM  comments ,  users
+ WHERE Users.id = Comments.from_user;'
+
+i2578518014
+SQL: 'SELECT items.id items_id , buynow.id buynow_id , buynow.date buynow_date , users.id users_id
+ FROM  buynow ,  items ,  users
+ WHERE Users.id = Buynow.buyer AND Items.id=Buynow.item ;'
+
+i2653317939
+SQL: 'SELECT users.id users_id , buynow.date buynow_date , buynow.id buynow_id ,
+ items.id items_id , buynow.qty buynow_qty , items.name items_name ,
+ items.description items_description , items.initial_price items_initial_price ,
+ items.quantity items_quantity , items.reserve_price items_reserve_price ,
+ items.buy_now items_buy_now , items.nb_of_bids items_nb_of_bids , items.max_bid items_max_bid ,
+ items.start_date items_start_date , items.end_date items_end_date
+ FROM  buynow ,  items ,  users
+ WHERE Users.id = Buynow.buyer AND Items.id=Buynow.item ;'
+
+i578710568
+SQL: 'SELECT items.id items_id , users.id users_id
+ FROM  items ,  users
+ WHERE Users.id=Items.seller ;'
+
+i2337785568
+SQL: 'SELECT users.id users_id , items.id items_id , items.name items_name ,
+items.description items_description , items.initial_price items_initial_price ,
+items.quantity items_quantity , items.reserve_price items_reserve_price ,
+items.buy_now items_buy_now , items.nb_of_bids items_nb_of_bids , items.max_bid items_max_bid ,
+items.start_date items_start_date , items.end_date items_end_date
+ FROM  items ,  users
+ WHERE Users.id=Items.seller ;'
+
+i3553045793
+SQL: 'SELECT users.id users_id , items.end_date items_end_date , bids.id bids_id , items.id items_id
+ FROM  bids ,  items ,  users
+ WHERE Users.id = Bids.user AND Items.id=Bids.item;'
+
+i3639792234
+SQL: 'SELECT regions.id regions_id , categories.id categories_id ,
+users.id users_id , items.id items_id , items.name items_name ,
+items.initial_price items_initial_price , items.max_bid items_max_bid ,
+items.nb_of_bids items_nb_of_bids , items.end_date items_end_date
+ FROM  regions ,  categories ,  items ,  users
+ WHERE Regions.id=Users.region AND Users.id=Items.seller  AND Categories.id=Items.category ;'
+
+i1683742356
+SQL: 'SELECT users.id users_id , regions.id regions_id
+ FROM  regions ,  users
+ WHERE Regions.id=Users.region ;'
+
+i1912786220
+SQL: 'SELECT items.id items_id , users.id users_id , regions.id regions_id
+ FROM  regions ,  items ,  users
+ WHERE Regions.id=Users.region  AND Users.id=Items.seller ;'
+
+i590232953
+SQL: 'SELECT regions.dummy regions_dummy , regions.id regions_id , regions.name regions_name
+ FROM  regions ;'
+
+-----------------------------------------------
+-- i3220017915 = i3563903410
+
+-- i4047225742 = i3639792234
+
+i1175133162
+SQL: 'SELECT categories.id categories_id , items.end_date items_end_date ,
+items.id items_id
+ FROM  categories ,  items
+ WHERE Categories.id=Items.category ;'
+
+i3128537325
+SQL: 'SELECT comments.id comments_id , users.id users_id
+ FROM  comments ,  users
+ WHERE Users.id = Comments.from_user;'
+
+-- i184475158 = i3639792234
+
+-- i101364659 = i1912786220
+
+-- i2817567804 = i3639792234

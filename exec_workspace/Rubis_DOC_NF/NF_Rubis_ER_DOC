@@ -1,0 +1,18 @@
+TARGET:DOC
+
+Users SQL :'SELECT * FROM users;'
+
+Categories SQL: 'SELECT * FROM categories;'
+
+Comments SQL: 'SELECT * FROM comments ;'
+
+Regions SQL:' SELECT * FROM regions ;'
+
+Items SQL:' SELECT * FROM items ;'
+
+Bids SQL:' SELECT * FROM bids ;'
+
+Buynow SQL:' SELECT * FROM buynow ;'
+
+
+

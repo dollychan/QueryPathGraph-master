@@ -1,0 +1,169 @@
+class Users {
+    int id [K],
+    string firstname,
+    string lastname,
+    string nickname,
+    string password,
+    string email,
+    int rating,
+    float balance,
+    date creation_date
+}1.52
+
+class Comments {
+    int id [K],
+    string comment,
+    int rating,
+    date date
+} 0.45
+
+class Items {
+    int id [K],
+    string name,
+    string description,
+    float initial_price,
+    int quantity,
+    float reserve_price,
+    int nb_of_bids,
+    float max_bid,
+    date start_date,
+    date end_date,
+    float buy_now
+} 5.37
+
+class Buynow {
+    int id [K],
+    int qty,
+    date date
+}1.10
+
+class Regions {
+    int id [K],
+    string name,
+    int dummy
+}
+class Bids {
+    int id [K],
+    int qty,
+    float bid,
+    float max_bid,
+    date date
+} 3.74
+
+class Categories {
+    int id [K],
+    string name,
+    int dummy
+}
+
+REL from_user: Comments[50], Users[1]; 0.45
+REL to_user: Comments[50], Users[1]; 0.45
+REL seller: Items[10], Users[1]; 0.53
+REL buyer: Buynow[10], Users[1]; 1.10
+REL user_bid: Bids[100] ,Users[1]; 3.74
+REL user_region: Regions[1], Users[40000]; 1.07
+REL item_comment: Items[1], Comments[5]; 0.45
+REL item_buy_now: Buynow[10], Items[1]; 1.10
+REL category: Categories[1], Items[4000]; 0.53
+REL item_bid:  Items[1] , Bids[10]; 3.74
+
+--Q1
+SELECT Users.nickname, Users.password
+    FROM Users WHERE Users.id = ?; 13.51
+
+--Q2
+SELECT Categories.id, Categories.name
+    FROM Categories
+    WHERE Categories.dummy = ?; 7.65
+
+--Q3
+    SELECT Items.name
+    FROM Items
+    WHERE Items.id = ?; 1.54
+
+ --Q4
+    SELECT Users.id, Users.nickname, Bids.id, Items.id, Bids.qty, Bids.bid, Bids.date
+    FROM Items.item_bid.Bids.user_bid.Users
+    WHERE Items.id = ?
+    ORDER BY Bids.date; 1.54
+
+--Q5
+    SELECT Bids.id, Bids.qty, Bids.bid, Bids.date
+    FROM Items.item_bid.Bids
+    WHERE Items.id = ?; 14.17
+
+--Q6
+    SELECT Items.id, Items.name, Items.initial_price, Items.max_bid, Items.nb_of_bids, Items.end_date
+    FROM Categories.category.Items
+    WHERE Categories.id = ? AND Items.end_date >= ?; 15.94
+
+--Q7
+    SELECT Users.id, Users.firstname, Users.lastname, Users.nickname, Users.password, Users.email, Users.rating, Users.balance, Users.creation_date
+    FROM Users 
+    WHERE Users.id = ?; 4.65 -- 2.48+0.46+1.71
+
+--Q8
+    SELECT Comments.id, Comments.rating, Comments.date, Comments.comment
+    FROM Users.to_user.Comments
+    WHERE Users.id = ?; 4.19 -- 2.48+1.71
+
+--Q9
+    SELECT Users.nickname
+    FROM Users
+    WHERE Users.id = ?; 1.16
+
+--Q10
+    SELECT Items.id, Items.name, Items.description, Items.initial_price, Items.quantity, Items.reserve_price, Items.buy_now, Items.nb_of_bids, Items.max_bid, Items.start_date, Items.end_date
+    FROM Items
+    WHERE Items.id = ?; 21.19 -- 14.17+1.16+5.40+0.46
+
+--Q11
+    SELECT Items.quantity, Items.nb_of_bids, Items.end_date
+    FROM Items
+    WHERE Items.id = ?; 1.10
+
+--Q12
+    SELECT Bids.qty, Bids.date
+    FROM Items.item_bid.Bids
+    WHERE Items.id = ?
+    ORDER BY Bids.bid; 5.40
+
+--Q13
+    SELECT Items.nb_of_bids, Items.max_bid
+    FROM Items WHERE Items.id = ?; 3.74
+
+--Q14
+    SELECT Users.rating
+    FROM Users
+    WHERE Users.id = ?; 0.45
+
+--Q15
+    SELECT Users.nickname
+    FROM Comments.from_user.Users
+    WHERE Comments.id = ?; 1.71
+
+--Q16
+    SELECT Buynow.id, Buynow.qty, Buynow.date, Items.id, Items.name, Items.description, Items.initial_price, Items.quantity, Items.reserve_price, Items.buy_now, Items.nb_of_bids, Items.max_bid, Items.start_date, Items.end_date
+    FROM Users.buyer.Buynow.item_buy_now.Items
+    WHERE Users.id = ? AND Buynow.date >= ?; 1.71
+
+--Q17
+    SELECT Items.id, Items.name, Items.description, Items.initial_price, Items.quantity, Items.reserve_price, Items.buy_now, Items.nb_of_bids, Items.max_bid, Items.start_date, Items.end_date
+    FROM Users.seller.Items
+    WHERE Users.id=? AND Items.end_date >= ?; 1.71
+
+--Q18
+    SELECT Bids.id, Items.id, Items.name, Items.description, Items.initial_price, Items.quantity, Items.reserve_price, Items.buy_now, Items.nb_of_bids, Items.max_bid, Items.start_date, Items.end_date
+    FROM Users.user_bid.Bids.item_bid.Items
+    WHERE Users.id=? AND Items.end_date >= ?; 1.71
+
+--Q19
+SELECT Users.id, Items.id, Items.name, Items.initial_price, Items.max_bid, Items.nb_of_bids, Items.end_date
+    FROM Categories.category.Items.seller.Users.user_region.Regions
+    WHERE Regions.id = ? AND Categories.id = ? AND Items.end_date >= ?; 6.34
+
+--Q20
+SELECT Regions.id, Regions.name
+    FROM Regions
+    WHERE Regions.dummy = ?; 5.39
+

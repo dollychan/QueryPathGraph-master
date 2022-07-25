@@ -1,0 +1,16 @@
+TARGET:DOC
+
+Carrier SQL: 'SELECT * FROM carrier;'
+
+Product SQL: 'SELECT * FROM product;'
+
+Category SQL: 'SELECT * FROM category;'
+
+Supplier SQL: 'SELECT * FROM supplier;'
+
+Customer SQL: 'SELECT * FROM customer;'
+{orders ISLIST SQL: 'SELECT orders.*, payment.paymentDate FROM orders, payment WHERE orders.id = payment.id and orders.customer = ?;' (id)
+    { items ISLIST SQL:' SELECT item.*, product.id FROM item, product where item.product = product.id and item.orders = ?;'  (id),
+    carrier SQL: 'SELECT delivery.deliveryDate, delivery.carrier from delivery where id = ?;' (id)
+    }
+}
